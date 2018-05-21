@@ -62,9 +62,10 @@
 					<!-- ... -->
 				<p class="score" v-if="query != jour">
 					<span>{{item.in_score ? '经验' + item.in_score : '游玩时间' + item.playtime}} </span>
-					<span>{{item.se_score ? '水平'item.se_score  :'' }}</span>
+					<span>{{item.se_score ? '水平' +item.se_score  :'' }}</span>
 					<span> {{item.se_score ? '质量' + item.se_score : ''}}</span> 
-					<span>{{item.distance ? item.distance + '英里' : '$' + item.price + '/人 |'  +  item.distance + '英里'}} </span>
+					<span style="float: right;transform: translateX(8vw);">{{item.price ? '$' + item.price + '/人 ' : item.distance + '英里'}} </span>
+					<!-- |'  : ''}}{{item.distance + '英里' -->
 				</p>
 				<p class="palyTime" v-if="query == jour">
 					<span>游玩时长：{{item.playtime  || '1-2小时'}}</span>
@@ -400,6 +401,7 @@
 			if(this.$route.query.tyep == 'jour'){
 				axios.get(`https://time2.jglist.com/index.php?r=newtravel/travel/images&auth_name=name&name=1&travel_id=${this.$route.params.id}&tx=3f556f66353c5945a3633ae209a3e0ff`)
 					.then(res=>{
+						console.log(res.data.data)
 						this.imgs = res.data.data
 				})
 			}

@@ -63,7 +63,7 @@
 			<div v-if='work == 3' class="workWarp" v-for='(item,index) in details' :key='index'>
 				<div class="workTop">
 					<p>{{item.title}}</p>
-					<p>${{item.price == '0.00' ? '面议' : Number(item.price) }}/月</p>
+					<p>{{item.price == '0.00' ? '面议' : '$' +  Number(item.price) + '/月'}}</p>
 					<p><span>更新：{{item.create_time}}</span><span><img src="/static/img/recruitment_icon_read.png">{{item.browse}}人</span></p>
 				</div>
 				<div class="workBot">

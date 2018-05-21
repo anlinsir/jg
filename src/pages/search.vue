@@ -4,10 +4,21 @@
 		<Header left='2' color='#00d1b2' @backk='backk'  @getVal='getVal'></Header>
 
 		<main>
-			 <dl @click='down(item.id,item.privilege_id,item.shop_id)' v-for='(item,index) in productList' :key='index' >
+			 <dl v-if='part != 3'  @click='down(item.id,item.privilege_id,item.shop_id)' v-for='(item,index) in productList' :key='index' >
 				<dt><img v-if='item.image' :src="item.image+'200_200.jpg'"></dt>
 				<dd>
-					<p>{{item.title || item.zh_name}}</p>
+					<p><span v-if='item.isStick' style="display: inline-block;display: inline-block;
+							width: 7.2VW;
+							height: 4vw;
+							font-size: 2.5vw;
+							transform: translateY(-0.5vw);
+							margin-right: 1vw;
+							background-color: #ffef07;
+							color: #6f3f15;
+							border-radius: 1vw;
+
+							text-align: center;
+							line-height: 4.5vw;">置顶</span>{{item.title || item.zh_name}}</p>
 					<p  style="marginBottom: 5vw;marginTop:1vw; ">
 
 						<span class="starB" v-if='(item.score || item.star)' :style="{color: (item.score || item.star) ? '#999' :''}">
@@ -25,9 +36,48 @@
 
 
 					{{item.role ? item.role == 1 ? '个人' : item.role == 2 ? '商家' :  '经纪人' : item.open  ? item.open.length ? '营业中' :'歇业中' :'' }}</span></p>
-					<p><span>{{item.city ||item.cate_title || item.category_title || '游玩时长 ' + item.playtime}}</span><span>{{item.area}}</span><span>{{item.price && item.price.indexOf('.') == -1 ? item.price + '/人 | ' : ''}}{{item.create_time  ? item.create_time : item.distance +'公里'}}</span></p>
+					<p><span>{{item.city ||item.cate_title || item.category_title || '游玩时长 ' + item.playtime}}</span><span>{{item.area}}</span><span>{{item.price&& item.price.indexOf('.') == -1 ? item.price + '/人 | ' : ''}}{{item.create_time  ? item.create_time : item.distance +'公里'}}</span></p>
 				</dd>
 			</dl> 
+
+
+
+		<div  v-if='part == 3'	@click='todetails(item.id)' :data-id='item.id' id='id' class="workBaseWarp" v-for='(item,index) in productList' :key='index'>
+			<div class="workBase bx">
+				<div class="top">
+					<p class="topOne">
+						<span><span v-if='item.isStick' style="display: inline-block;display: inline-block;
+							width: 7.2VW;
+							height: 4vw;
+							font-size: 2.5vw;
+							transform: translateY(-0.5vw);
+							margin-right: 1vw;
+							background-color: #ffef07;
+							color: #6f3f15;
+							border-radius: 1vw;
+
+							text-align: center;
+							line-height: 4.5vw;">置顶</span>{{item.title}}</span>
+						<span  data-id='call' @click='openAPP'>立即联系</span>
+					</p>
+
+					<p class="topTwo">
+						<span><span v-if='Number(item.price) != 0'>$</span>{{Number(item.price)  == '0' ? '面议' : Number(item.price)  + '/月'}}</span>
+						<span><img src="/static/img/work_icon_position.png"> &nbsp;<span>{{item.position}}</span></span>
+					</p>
+					
+				</div>
+				<!-- bom -->
+				<div class="bom">
+					<p class="bomOne">
+						<time>{{item.create_time}}</time>
+						<span>{{item.address}} {{item.area}}</span>
+					</p>
+				</div>
+			</div>
+
+
+		</div>
 
 <div v-show='sets' id="set">
 				<div class="in">
@@ -69,6 +119,7 @@
 				val:null,
 				setss:false,
 				showff:false
+				,part:null
 
 			})
 		},
@@ -77,6 +128,13 @@
 			'Footer':Footer
 		},
 		methods:{
+			openAPP(){
+				console.log('giuoiijk')
+			},
+			todetails(id){
+
+				this.$router.push({path:`/details/${id}`,query:{g:3}})				
+			},
 			next(){
 				
 			localStorage.searchPages = Number(localStorage.searchPages) + 1
@@ -300,6 +358,8 @@
 		},
 		created(){
 			localStorage.searchPages = 1
+			this.part = this.$route.query.part
+			console.log(this.part)
 		}
 
 	}
@@ -487,6 +547,186 @@
 				}
 			}
 		}
+	}
+
+
+
+	#next{
+	width: 100%;
+	height: 20vw;
+	background-color: #eee;
+	position: relative;
+	color: #334;
+	text-align: center;
+	line-height: 20vw;
+	#xia{
+		display: inline-block;
+		font-size: 5vw;
+		color: #01d2b3;
+	
+	}
+.fff{
+			position: absolute;
+			top: 0;
+			width: 100%;
+			height: 20vw;
+			background-color: #00d1b2;
+			opacity: .7;
+			animation: change 5s infinite;
+		}
+}
+
+	
+#set{
+		width: 100%;
+			height: 60vw;
+			position: relative;
+	>.in{
+			width: 26vw;
+			height: 26vw;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			text-align: center;
+			line-height: 26vw;
+			margin:auto;
+			bottom: 0;
+			/*animation: tr 5s infinite;*/
+			transform-origin: center center ;
+				>span{
+					width: 6.66vw;
+					height: 6.66vw;
+					background-color: #334;
+					display: inline-block;
+					border-radius: 50%; 
+
+				}
+				>:nth-child(2){
+					background-color: #00d1b2;
+					transform: translateY(-11.4vw);
+				}
+				>:nth-child(1){
+					animation: o 1s infinite;
+				}
+				>:nth-child(2){
+					animation: t 1s infinite;
+
+				}
+				>:nth-child(3){
+					animation: e 1s infinite;
+
+				}
+			>#texxxt{
+				display: inline-block;
+				color: red;
+				font-size: 5vw;
+				font-style: normal;
+				font-weight: 600;	
+				/*font-size: 20vw;*/
+				animation:  aa 1s infinite;
+				background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#00d1b2), to(#fff));
+			    -webkit-background-clip: text;
+			    -webkit-text-fill-color: transparent;
+			}
+
+		}
+
+}
+
+.bx{
+	box-sizing: border-box;
+}
+	.workBaseWarp:not(:nth-last-child(1)){
+		border-bottom: 2.66vw solid #eee;
+
+	}
+	.workBaseWarp{
+		width: 100%;
+		    background-color: #fff;
+		height: 28vw;
+		border-bottom: 2.66vw solid #eee;
+		>.workBase{
+			width: 100%;
+			height: 100%;
+			padding:4vw 4vw 0; 
+			>.top{
+				height: 14.4vw;
+				border-bottom: 1px solid #eee;
+				font-size: 4vw;
+				>.topOne{
+					>:nth-child(1){
+						color: #353535;
+						display: inline-block;
+						width: 70%;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						word-wrap:break-word;
+					}
+					>:nth-child(2){
+						display: inline-block;
+						width: 16.8vw;
+						height: 6.66vw;
+						background-color: #ffa84b;
+						color: #fff;
+						font-size: 3.5vw;
+						border-radius: 1vw;
+						float: right;
+						text-align: center;
+						line-height: 7.5vw;
+					}
+
+				}
+				>.topTwo{
+						margin-top: 1vw;
+
+					>:nth-child(1){
+						color: #f15a4a;
+						font-size: 3.63vw;
+						>:nth-child(1){
+							font-size: 2.4vw;
+						}
+					}
+					>:nth-child(2){
+							transform: translateY(0.5vw);
+
+						box-sizing: border-box;
+						color: #999999;
+						font-size: 2.66vw;
+						line-height: 3.9vw;
+						width: 50%;
+						display: inline-block;
+
+						float: right;
+						>img{
+							width: 2.93vw;
+							height: 3.73vw;
+							vertical-align: bottom;
+						}
+						>span{
+							display: inline-block;
+							transform: translateY(0.5vw);
+
+						}
+					}
+				}
+			}
+			>.bom{
+				height: 7.6vw;
+				>.bomOne{
+					font-size: 3vw;
+					color: #999999;
+					line-height: 8.8vw;
+						>:nth-child(1){
+						}
+						>:nth-child(2){
+							float: right;
+						}
+				}
+			}
+		}
+
 	}
 	
 </style>
