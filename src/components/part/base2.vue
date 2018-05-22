@@ -57,13 +57,29 @@
 				</div>
 			</div>
 
-		<div v-show='sets' id='next' @touchstart='next'>
+		<div v-show='sets && !none' id='next' @touchstart='next'>
 					<div v-show='showff' class="fff"></div>
 
 					<span id='xia' data-iid='id'>点击加载更多...</span>
 
 		</div>
-			
+			<div style="width: 30vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  	text-align: center;
+  	line-height: 30vw;
+    height: 30vw;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#00d1b2), to(#fff));
+	 -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size:5vw ;
+}" v-if='none == 1'>
+			<p>没有了</p>
+		</div>
 
 
 		</div>
@@ -86,7 +102,8 @@
 				sets:0,
 				flag:1,
 				count:0,
-				showff:false
+				showff:false,
+				none:null
 
 				
 		
@@ -161,13 +178,28 @@
 			}
 		},
 		mounted(){
+			console.log(this.$route.name)
+			var duration = this.$route.name == 'cate' ? 4500 : 3500; 
+			
 			if(!this.data.length){
-				var timer =  setInterval(()=>{
+				var timer =  setTimeout(()=>{
+					// setInterval
 
-			 		if(this.data.length){ clearInterval(timer) ;this.sets = 1}
+
+			 		if(this.data.length){ 
+			 			clearInterval(timer) ;
+			 			this.sets = 1
+			 		}else if(localStorage.None == '1'){
+			 			this.none = localStorage.None
+			 			 this.sets = 1	
+			 			clearInterval(timer);
+			 		}
 			 		
 			 		
-		 		},100)		
+		 		},duration)
+
+
+
 			 }
 			 if(this.data.length){this.sets = 1}
 		},

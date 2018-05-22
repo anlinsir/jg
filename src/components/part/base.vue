@@ -35,13 +35,37 @@
 				<i id="texxxt">加载中 ...</i>
 			</div>
 		</div>
-		<div v-show='sets' id='next' @click='getnext'>
+		<div v-show='sets && !none' id='next' @click='getnext'>
 			<div v-show='show' class="fff"></div>
 
 			<span id='xia' data-iid='id'>点击加载更多...</span>
 
 		</div>
+
+
+		<div style="width: 30vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  	text-align: center;
+  	line-height: 30vw;
+    height: 30vw;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#00d1b2), to(#fff));
+	 -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size:5vw ;
+}" v-if='none == 1'>
+			<p>没有了</p>
+		</div>
+
 	</div>
+
+
+	
+
 
 </template>
 
@@ -59,7 +83,9 @@
 				newData:null,
 				sets:0,
 				flag:true,
-				show:false
+				show:false,
+				none:0,
+				ja:true
 			})
 		},
 		methods:{
@@ -102,20 +128,42 @@
 			
 		},
 		mounted(){
+			this.none = 0
+			this.sets = 0
 
-
-
+			var dura = this.$route.name == 'rent' ? 4000 : 2000;
+		
 			if(!this.data.length){
-				var timer =  setInterval(()=>{
+				var timer =  setTimeout(()=>{
+					// setInterval
+			 		if(this.data.length){
+			 		 clearInterval(timer);
+			 		 this.none = 0
+			 		 this.sets = 1	
+			 		 localStorage.removeItem('none')
+			 		 console.log('yyy')		 		 
+			 		}else if(localStorage.none == '1'){
 
-			 		if(this.data.length){ clearInterval(timer) ;this.sets = 1}
+			 			clearInterval(timer);
+			 			console.log('nnn')
+			 			this.none = localStorage.none
+			 			 this.sets = 1	
+			 			
+			 		}
 			 		this.newData = this.data
 			 		
-		 		},100)		
+		 		},dura)		
 			 }
+
 			 if(this.data.length){this.sets = 1}
 
 		
+		},
+	updated(){
+	
+			if(this.data.length){
+				this.none = 0
+			}
 		}
 	}
 </script>

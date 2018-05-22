@@ -28,7 +28,7 @@
 				console.log(localStorage.Jourpages)
 				axios.get(`https://time2.jglist.com/index.php?r=newtravel/travel/list&auth_name=id&category_child=0&grand_id=8&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&page=${localStorage.Jourpages}`)
 				.then(res=>{
-					if(!res.data.data.length){this.nt == '在怎么找也没有了'}
+					if(!res.data.data.length){alert('没有了')}
 					for(let i in res.data.data){
 						this.data.push(res.data.data[i])
 					}
@@ -55,9 +55,12 @@
 				.then(res=>{
 					if(!res.data.data.length){
 						alert('none')
-						this.data = JSON.parse(localStorage.dataJour2)
+						localStorage.None = 1
+						// this.data = JSON.parse(localStorage.dataJour2)
+
 						return
 					}
+					localStorage.removeItem('None')
 					console.log(res.data.data)
 					this.data = res.data.data
 					localStorage.dataJour = JSON.stringify(res.data.data)

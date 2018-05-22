@@ -60,9 +60,12 @@
 				.then(res=>{
 					if(!res.data.data.length){
 						alert('none')
-					this.data = 	JSON.parse(localStorage.dataCate2)
+						localStorage.None =1
+					// this.data = 	JSON.parse(localStorage.dataCate2)
 					return
 					}
+					localStorage.removeItem('None')
+					
 					console.log(res.data.data)
 					this.data = res.data.data
 					localStorage.dataCate = JSON.stringify(res.data.data)

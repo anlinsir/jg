@@ -39,7 +39,7 @@
 		<main v-if='!imgShow' v-for='(item,index) in data' :key='index'>
 			<div @touchstart='showImg' class="bigImg">
 				<img :src="item.image + '200_200.jpg' ">
-				<span class="viewM" @touchstart='down'>查看商家</span>
+				<span v-if="query != 'jour'" class="viewM" @touchstart='down'>查看商家</span>
 				<span class="photoNum"><img src="/static/img/businessservice_icon_photo.png">共{{item.mci_count ? item.mci_count : item.img_count ? item.img_count : "0"}}张照片</span>
 			</div>
 			<div class="infomation">
@@ -64,7 +64,7 @@
 					<span>{{item.in_score ? '经验' + item.in_score : '游玩时间' + item.playtime}} </span>
 					<span>{{item.se_score ? '水平' +item.se_score  :'' }}</span>
 					<span> {{item.se_score ? '质量' + item.se_score : ''}}</span> 
-					<span style="float: right;transform: translateX(8vw);">{{item.price ? '$' + item.price + '/人 ' : item.distance + '英里'}} </span>
+					<span style="float: right;transform: translateX(8vw);">{{item.price && item.price.indexOf('$') == -1 ? '$' + item.price + '/人': item.distance + '英里'}} </span>
 					<!-- |'  : ''}}{{item.distance + '英里' -->
 				</p>
 				<p class="palyTime" v-if="query == jour">
@@ -79,7 +79,7 @@
 					<span v-if='item.verify || item.has_game '>{{item.verify ? item.verify == 1 ? '券' :'惠' : item.has_game ? '玩' : ''}}</span>
 					<span>{{item.title}}</span>
 					<span class="spanBtn" v-if='item.has_game' style="float: right;display: inline-block;transform: translateY(2vw);">游戏</span>
-					<span class="rows" v-if='!item.has_game' style="float: right;">></span>
+					<span class="rows" v-if='!item.has_game' style="float: right;">></span> 
 				</p>
 
 				<p @touchstart='down' @touchend='down' @touchmove='down'>下载简购生活APP，享受更多优惠</p>
@@ -177,7 +177,12 @@
 							</span>
 							<span>${{it.price}}/人</span>
 						</p>
-						<p class="commendsWhere"><span>{{it.cate_title ? it.cate_title : it.category_title ? it.category_title : '游玩时长：' + it.playtime}}</span><span>{{it.distance}}m</span></p>
+						<p class="commendsWhere"><span style="display: inline-block;
+    width: 22vw;
+    height: 4vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;">{{it.cate_title ? it.cate_title : it.category_title ? it.category_title : '游玩时长：' + it.playtime}}</span><span>{{it.distance}}英里</span></p>
 
 					</div>
 
@@ -224,6 +229,7 @@
 			Footer
 		},
 		updated(){
+			console.log(this.query)
 			if(document.getElementById('mapsss')){
 				var mapType = google.maps.MapTypeId.ROADMAP;
 					var lat = this.lat, lng = this.lng, zoom = 15;

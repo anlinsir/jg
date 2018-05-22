@@ -4,7 +4,7 @@
 		<Header left='2' color='#00d1b2' @backk='backk'  @getVal='getVal'></Header>
 
 		<main>
-			 <dl v-if='part != 3'  @click='down(item.id,item.privilege_id,item.shop_id)' v-for='(item,index) in productList' :key='index' >
+			 <dl v-if='part != 3 && part != 7'  @click='down(item.id,item.privilege_id,item.shop_id)' v-for='(item,index) in productList' :key='index' >
 				<dt><img v-if='item.image' :src="item.image+'200_200.jpg'"></dt>
 				<dd>
 					<p><span v-if='item.isStick' style="display: inline-block;display: inline-block;
@@ -36,7 +36,7 @@
 
 
 					{{item.role ? item.role == 1 ? '个人' : item.role == 2 ? '商家' :  '经纪人' : item.open  ? item.open.length ? '营业中' :'歇业中' :'' }}</span></p>
-					<p><span>{{item.city ||item.cate_title || item.category_title || '游玩时长 ' + item.playtime}}</span><span>{{item.area}}</span><span>{{item.price&& item.price.indexOf('.') == -1 ? item.price + '/人 | ' : ''}}{{item.create_time  ? item.create_time : item.distance +'公里'}}</span></p>
+					<p><span>{{item.city ||item.cate_title || item.category_title || '游玩时长 ' + item.playtime}}</span><span>{{item.area}}</span><span>{{item.price&& item.price.indexOf('.') == -1 ?  '$'+ item.price + '/人 | ' : ''}}{{item.create_time  ? item.create_time : item.distance +'公里'}}</span></p>
 				</dd>
 			</dl> 
 
@@ -78,6 +78,42 @@
 
 
 		</div>
+
+
+
+		<div class="grey" v-if='part == 7'>
+		<div class="priBox">
+			<div   :data-id='item.privilege_id' class="priItem"  v-for = "(item,index) in productList" :key='index'>
+				<p class="img"><img :src="item.image + '200_200.jpg'"></p>
+				<div class="text">
+					<p class="top"><span v-if='item.recommend != 0' class="tui">推荐</span><span class="title">{{item.title}}</span></p>
+					<p class="btm"><span>{{item.cate_title}}</span><span>{{item.browse + '浏览 | ' +item.distance + '英里'}}</span></p>
+				</div>
+				<p class="right" v-if='!item.verify '>
+					<span >
+						{{item.verify ?  '立即领取' :'查看详情' }}
+					</span>
+				</p>
+				<p class="right2" v-if='item.verify'>
+					<span >
+						{{item.verify ?  '立即领取' :'查看详情' }}
+					</span>
+				</p>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div v-show='sets' id="set">
 				<div class="in">
@@ -144,10 +180,11 @@
 				axios.get(`https://time2.jglist.com/index.php?r=v2/magor/lists&auth_name=id&cate_id=0&grand_id=${this.$route.query.part}&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&search=${this.val}&page=${localStorage.searchPages}`)
 
 					.then((res)=>{
+
 						console.log(res.data.data)
 						if(!res.data.data.length){
 							this.showff = false
-							alert('none')
+							alert('没有了')
 
 							return
 						}
@@ -163,7 +200,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('none')
+								alert('没有了')
 								return
 							}
 							for(let i in res.data.data){
@@ -179,7 +216,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('none')
+								alert('没有了')
 								return
 							}
 							for(let i in res.data.data){
@@ -194,7 +231,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('none')
+								alert('没有了')
 								return
 							}
 							for(let i in res.data.data){
@@ -209,7 +246,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('none')
+								alert('没有了')
 								return
 							}
 							for(let i in res.data.data){
@@ -226,7 +263,9 @@
 
 			},
 			getVal(val){
+				this.productList = []
 				this.sets = true
+				this.setss = false
 				localStorage.searchPages = 1
 				// ${localStorage.searchPages? localStorage.searchPages : 1}
 				this.val =  val
@@ -237,6 +276,11 @@
 				axios.get(`https://time2.jglist.com/index.php?r=v2/magor/lists&auth_name=id&cate_id=0&grand_id=${this.$route.query.part}&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&search=${this.val}&page=1`)
 
 					.then((res)=>{
+						if(!res.data.data.length){
+							alert('没有了')
+							this.sets = 0
+							return
+						}
 						console.log(res.data.data)
 						this.productList = res.data.data
 						this.sets = false
@@ -245,6 +289,11 @@
 				}else if(this.$route.query.part == 5){
 					axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/list&auth_name=id&grand_id=5&id=1&name=${this.val}&tx=3f556f66353c5945a3633ae209a3e0ff`)
 						.then((res)=>{
+							if(!res.data.data.length){
+								alert('没有了')
+								this.sets = 0
+								return
+							}
 							console.log(res.data.data)
 							this.productList = res.data.data
 							this.sets = false
@@ -255,6 +304,12 @@
 					https://time2.jglist.com/index.php?r=delicacy/food/list&auth_name=id&grand_id=6&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&search=%E5%8A%B3
 					axios.get(`https://time2.jglist.com/index.php?r=delicacy/food/list&auth_name=id&grand_id=6&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&search=${this.val}`)
 						.then((res)=>{
+							if(!res.data.data.length){
+								alert('没有了')
+								this.sets = 0
+								return
+							}
+
 							console.log(res.data.data)
 							this.productList = res.data.data
 							this.sets = false
@@ -263,6 +318,12 @@
 				}else if(this.$route.query.part == 7){
 					axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/privilegelist&auth_name=id&id=1&lat=30.55102013717875&lng=104.06901177707833&tx=3f556f66353c5945a3633ae209a3e0ff&search=${this.val}`)
 						.then((res)=>{
+							if(!res.data.data.length){
+								alert('没有了')
+								this.sets = 0
+								return
+							}
+
 							console.log(res.data.data)
 							this.productList = res.data.data
 							this.sets = false
@@ -271,6 +332,12 @@
 				}else if(this.$route.query.part == 8){
 					axios.get(`https://time2.jglist.com/index.php?r=newtravel/travel/list&auth_name=id&grand_id=8&id=1&search=${this.val}&tx=3f556f66353c5945a3633ae209a3e0ff`)
 						.then((res)=>{
+							if(!res.data.data.length){
+								alert('没有了')
+								this.sets = 0
+								return
+							}
+
 							console.log(res.data.data)
 							this.productList = res.data.data
 							this.sets = false
@@ -722,6 +789,162 @@
 						}
 						>:nth-child(2){
 							float: right;
+						}
+				}
+			}
+		}
+
+	}
+		.grey{
+		width: 100%;
+		min-height: 94%;
+		background-color: #f3f3f3;
+		padding: 2.66vw 2.66vw 0 ;
+		box-sizing: border-box;
+		font-size: 4vw;
+		.priBox{
+			width: 100%;
+			height: 100%;
+			.priItem{
+				width: 100%;
+				height: 17.06vw;
+				background-color: #fff;
+				display: flex;
+				margin-bottom:2vw;
+
+				>.img{
+					width: 22.4vw;
+					height: 100%;
+					margin-right: 2vw;
+					>img{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				>.text{
+					width: 50%;
+					padding: 2vw 0;
+					box-sizing: border-box;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					flex:1;
+					padding-right:5vw;
+
+					>p{
+					height: 5.5vw;
+				}
+					>.top{
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						>.tui{
+							width: 6.66vw;
+							height: 3.73vw;
+							display: inline-block;
+							font-size: 2.5vw;
+							color: #f72c1d;
+							background-color: #ffdecf;
+							border: 1px solid #ffcdc1;
+							border-radius: 1vw;
+							text-align: center;
+							line-height: 3.9vw;
+							margin-right: 0.5vw;
+
+						}
+						>.title{
+							font-size: 3.2vw;
+							color: #333333;
+						}
+					}
+					>.btm{
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						line-height: 5.5vw;
+						>:nth-child(1){
+							font-size: 2.8vw;
+							color: #666666;
+							float: left;
+							overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						width: 30%;
+						}
+						>:nth-child(2){
+							font-size: 2.5vw;
+							color: #999999;
+							float: right;
+						}
+					}
+
+				}
+				>.right{
+					width: 10.66vw;
+					background-color: #ffa84b;
+					font-size: 3.33vw;
+					padding:  0 3.73vw;
+					box-sizing: border-box;
+					color: #fff;		
+					>span{
+						width: 3.33vw;
+						display: inline-block;
+						margin: 0 auto;
+						letter-spacing:0.3em;
+					line-height: 0.3em;	
+
+						position: relative;
+					writing-mode:lr-tb;		
+
+
+
+					} 
+					>span::after{
+							content:'';						
+							display: block;
+							position: absolute;
+							top: 55%;
+							left: -8vw;
+							border: 2.4vw solid #ffa84b;
+							border-right: 2.4vw solid #ffa84b;
+							border-left: 2.4vw solid  transparent;
+							border-top: 2.4vw solid transparent;
+							border-bottom: 2.4vw solid transparent;
+
+						}
+				}
+				>.right2{
+					width: 10.66vw;
+					background-color: #fb6b5c;
+					font-size: 3.33vw;
+					padding:  0 3.73vw;
+					box-sizing: border-box;
+					color: #fff;					
+					>span{
+					    width: 3.33vw;
+					    display: inline-block;
+					    letter-spacing: 0.1em;
+					    position: relative;
+					    -webkit-writing-mode: lr-tb;
+					    -ms-writing-mode: lr-tb;
+					    writing-mode: tb-rl;	
+					    transform: translateY(1.5vw) translateX(0.5vw);
+
+
+
+					} 
+					>span::after{
+							content:'';						
+							display: block;
+							position: absolute;
+							top: 55%;
+							left: -8vw;
+							border: 2.4vw solid #fb6b5c;
+							border-right: 2.4vw solid #fb6b5c;
+							border-left: 2.4vw solid  transparent;
+							border-top: 2.4vw solid transparent;
+							border-bottom: 2.4vw solid transparent;
+
 						}
 				}
 			}

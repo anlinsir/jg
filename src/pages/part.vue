@@ -11,7 +11,7 @@
 							<li  @touchstart.stop='chooseItem(indexs,$event,items.child)' @touchend.stop='chooseItem(indexs,$event,items.child)' :data-pricess='items.pricess'  :data-add='items.level'   @touchmove.stop='chooseItem(indexs,$event,items.child)' @mouseenter="chooseItem(indexs,$event)" :key='indexs'  :data-id='items.id' :data-role="item.role ? item.role: '' " v-for="(items,indexs) in useClassify  ? useClassify[0].child?  useClassify[0].child.length ?   useClassify[0].child: useClassify : useClassify : '' ">
 									<span :class="active == index ? 'active' : '' " v-if='items.child && items.child.length'>></span>{{items.title}}
 								<ul v-if='items.child && showPartItem == indexs'>
-									<li @touchstart.stop='hide(indexss,$event,props.id,props.title)' v-for='(props,indexss) in items.child' :data-id='items.id'  :key='indexss' :data-pid='props.id'>{{props.title}}</li>
+									<li @touchstart.stop='hide(indexss,$event,props.id,props.title)' @touchmove.stop='hide(indexss,$event,props.id,props.title)' @touchend.stop='hide(indexss,$event,props.id,props.title)' v-for='(props,indexss) in items.child' :data-id='items.id'  :key='indexss' :data-pid='props.id'>{{props.title}}</li>
 								</ul>
 							</li>
 						</ul>
@@ -77,7 +77,19 @@
 		methods:{
 
 			hide(idx,e,id,tit){
-				console.log(id)
+
+				console.log(e.type)
+				 switch (e.type) {
+	                case 'touchstart':
+	                    this.flag = true;
+	                    break;
+	                case 'touchmove':
+	                    this.flag = false;
+	                    break;
+	                case 'touchend':
+	                    if(this.flag){
+
+	                    	console.log(id)
 				var name = this.$route.name
 	           	this.nav[this.showPart].name =  tit.substring(0,2) + '...'
 					if(name == 'work'){
@@ -118,6 +130,7 @@
 
 
                 	if(name == 'privilege'){
+                		localStorage.removeItem('dataPri')
             			if(this.showPart == 0){
             				console.log(e.target.innerText)
 
@@ -131,6 +144,19 @@
 
             		}
 				this.showPart = -1	
+
+
+
+	                    }else{
+	                    // 滑动事件
+	                    
+
+	                    }
+	                        default:
+	                            break;
+	                    }     
+
+				
 
 	         
 
@@ -329,6 +355,7 @@
 	                    		}
 	                    	}
 	                    	if(name == 'jour'){
+	                    		localStorage.removeItem('dataJour')
 	                    		if(index == 1){
 	                    			if(localStorage.JourType == '1'){
 	                    				localStorage.removeItem('JourType')
@@ -349,6 +376,7 @@
 	                    			location.reload()
 	                    			return
 	                    		}
+	                    		
 	                    	}
 
 
@@ -698,6 +726,14 @@
 	                    				
 	                    				location.reload()                    				
 
+	                    			}
+	                    			if(this.showPart == 0){
+	                    			
+	                    				localStorage.NavChoosePri0 = e.target.innerText
+                						this.nav[this.showPart].name =localStorage.NavChoosePri0 
+	                    				localStorage.parentPri =  e.target.dataset.id || 0
+                						localStorage.childPri = e.target.dataset.pid || 0
+                						location.reload()  
 	                    			}
 
 	                    		}

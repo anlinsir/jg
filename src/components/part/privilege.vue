@@ -19,6 +19,25 @@
 					</span>
 				</p>
 			</div>
+
+			<div style="width: 30vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  	text-align: center;
+  	line-height: 30vw;
+    height: 30vw;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#00d1b2), to(#fff));
+	 -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size:5vw ;
+}" v-if='none == 1'>
+			<p>没有了</p>
+		</div>
+
 		</div>
 	</div>
 </template>
@@ -29,7 +48,8 @@
 	export default{
 		data(){
 			return({
-				list:[]
+				list:[],
+				none:null
 			})
 		},
 		methods:{
@@ -66,9 +86,12 @@
 					console.log(res.data.data)
 					if(!res.data.data.length){
 						alert('none')
-						this.list =JSON.parse(localStorage.dataPri2)
+						localStorage.none = 1
+						this.none = localStorage.none
+						// this.list =JSON.parse(localStorage.dataPri2)
 						return
 					}
+					localStorage.removeItem('none')
 					this.list = res.data.data
 					localStorage.dataPri = JSON.stringify(res.data.data)
 					localStorage.dataPri2 = localStorage.dataPri

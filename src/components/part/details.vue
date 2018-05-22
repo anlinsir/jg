@@ -103,10 +103,10 @@
 					<p class="headerShow"   @click='openApp'><span>{{ role == 2 ? '商家': '经纪人'}}信息</span><span>查看详细信息 <img src="/static/img/home_icon_hkjt.png">	</span></p>
 					<dl v-for='(item,index) in details' :key='index'>
 						<dt>
-							<img :src="item.merchant.header ? item.merchant.header : item.merchant.header_img ">
+							<img :src="item.merchant.header ? item.merchant.header : item.merchant.header_img ?  item.merchant.header_img : '#' ">
 						</dt>
 						<dd>
-							<span>{{item.merchant.zh_name ? item.merchant.zh_name : ' '}} <img v-if='item.license == 2' style="width: 3.46vw;height: 3.46vw;vertical-align: middle; " src="/static/img/businessservice_icon_vip.png"></span>
+							<span>{{item.merchant.zh_name ? item.merchant.zh_name : ' '}} <img v-if='item.license == 2' style="width: 3.46vw;height: 3.46vw;vertical-align: middle;transform: translateX(1vw);" src="/static/img/businessservice_icon_vip.png"><img v-if='item.license != 2' style="width: 3.46vw;height: 3.46vw;vertical-align: middle;transform: translateX(1vw); " src="/static/img/businessservice_icon_vip_gray.png"></span>
 							<span>{{item.merchant.en_name}}</span>
 						</dd>						
 					</dl>
@@ -308,7 +308,8 @@
 							this.idd = this.details[0].id
 							this.status = this.details[0].role
 							this.nickname = this.details[0].nickname
-							this.role = this.details[0].role
+							this.role = this.details[0].role 
+						
 							this.thumbs = this.details[0].thumbs
 							this.introduce = this.details[0].introduce ?  this.details[0].introduce : ''
 							this.want = this.details[0].browse

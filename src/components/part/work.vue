@@ -53,10 +53,31 @@
 		</div>
 
 
-					<div v-show='!sets' @touchstart='next' id='next'>
+					<div v-show='!sets && !none' @touchstart='next' id='next'>
 						<div v-show='show' class="fff"></div>
 						<span id='xia' >点击加载更多...</span>
 					</div>
+
+					<div style="width: 30vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  	text-align: center;
+  	line-height: 30vw;
+    height: 30vw;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#00d1b2), to(#fff));
+	 -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-size:5vw ;
+}" v-if='none == 1'>
+			<p>没有了</p>
+		</div>
+
+
+
 				</div>
 
 
@@ -82,7 +103,8 @@
 				sets:true,
 				flags:false,
 				showfff:false,
-				show:false
+				show:false,
+				none:null
 
 
 			})
@@ -203,13 +225,16 @@
 			axios.get(`https://time2.jglist.com/index.php?r=v2/magor/lists&auth_name=id&cate_id=${localStorage.WorkCate ? localStorage.WorkCate : 0}&city_id=${localStorage.WorkCity ? localStorage.WorkCity : 0}&level=${localStorage.WorkCity ? localStorage.WorkCity == 0 ? 0 : 2  : 0 }&price=${localStorage.Pricess ? localStorage.Pricess : '0,1000000' }&source=${localStorage.WorkRole ? localStorage.WorkRole : 0 }&grand_id=3&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&type=${localStorage.UsedTime == 0  ? 0 : 3 }`)
 				.then(res=>{
 					if(!res.data.data.length){
-						alert('none')
-						localStorage.clear()
-						location.reload()
+						this.sets = 0
+						localStorage.WorkNone = 1
+						this.none = localStorage.WorkNone
+						// localStorage.clear()
+						// location.reload()
 						return
 					this.list = JSON.parse(localStorage.dataWork2)
 						return
 					}
+					localStorage.removeItem('WorkNone')
 					console.log(res.data.data)
 					this.list = res.data.data
 					localStorage.dataWork = JSON.stringify(res.data.data)
