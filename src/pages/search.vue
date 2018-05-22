@@ -30,7 +30,7 @@
 
 
 
-						<span :style="{color: (item.score || item.star) ? '#999' :'',float:'none'}" class="star">{{ item.price && item.price !='$' && item.price.indexOf('.') != -1 ? item.price =='0.00' ? '面议' : '$' + item.price : (item.score? item.score + '分' :  item.star? item.star + '分' : '')   +' &nbsp; 评论' + (item.comments || item.recommend)  + '条' }}</span><span v-if='item.role || item.open'  id='role'
+						<span :style="{color: (item.score || item.star) ? '#999' :'',float:'none'}" class="star">{{ item.price && item.price !='$' && item.price.indexOf('.') != -1 ? item.price =='0.00' ? '面议' : '$' + item.price : (item.score? item.score + '分' :  item.star? item.star : '')   +' &nbsp; 评论' + (item.comments || item.recommend)  + '条' }}</span><span v-if='item.role || item.open'  id='role'
 
 					 :style="{color: item.role ?  item.role == 1 ? '#00d1b2' : item.role == 2 ? '#fb6b5c' :'#ffa84b' : item.open  ?  item.open.length ?'#fff' :'#fff' :'',background:item.open? item.open.length ? 'linear-gradient(to right, #41e9d0, #01d1b2)':'linear-gradient(to right, #ff8777, #fb6b5c)' : '' ,float:'right'}">
 

@@ -4,7 +4,7 @@
 			<span @click='toIndex' v-if='left == 1' :style="{color: color ? color : '' }"  class="back"><img class="backk" src="/static/img/businessservice_icon_return_white.png"></span>
 			<span @click='toIndex' v-if='left == 2' :style="{color: color ? color : '' }"  class="back"><img style="width: 2.66vw;height: 4.8vw;" src="/static/img/businessservice_icon_return_whitess.png"></span>
 
-			<input  :style="{backgroundColor: wi ? '#fff' :''}" v-model='text' @click='toseac'  @keydown.enter='sendSearch'  type="text" placeholder="输入商家、商品名称" />
+			<form > <input  :style="{backgroundColor: wi ? '#fff' :''}" v-model='text' @click='toseac'  @keydown.enter='sendSearch'  type="text" placeholder="输入商家、商品名称" /></form>
 			<span class="posi" v-show='0'>dsdddsdsds</span>
 	</header>
 
@@ -170,7 +170,9 @@ localStorage.removeItem('LNG')
 			
 width: 2.66vw;height: 4.8vw;
 			}
-			>input{
+			>form{
+				width: 100%;
+				>input{
 				width: 100%;
 				border: none;
 				background-color: #f3f3f3;
@@ -182,6 +184,7 @@ width: 2.66vw;height: 4.8vw;
 				background-repeat: no-repeat;
 				background-position: 28%;
 
+			}
 			}
 			.posi{
 				position: absolute;

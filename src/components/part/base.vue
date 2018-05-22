@@ -6,7 +6,7 @@
 					<dt><img :data-id='item.id' :src="item.image + '200_200.jpg'"></dt>
 					<dd :data-id='item.id'>
 						<p :data-id='item.id'><span :data-id='item.id' v-if='item.isStick' class="issss">置顶</span> <span :data-id='item.id'>{{item.title}}</span></p>
-						<p :data-id='item.id'><span :data-id='item.id' style="font-size: 3.63vw;"><span style='font-size: 2.4vw;' v-if="item.price != '0.00' ">$</span>{{item.price == '0.00' ? '面议' :  item.price}}</span>
+						<p :data-id='item.id'><span :data-id='item.id' style="font-size: 3.63vw;"><span style='font-size: 2.4vw;' v-if="item.price != '0.00' ">$</span>{{item.price == '0.00' ? '面议' :  Number(item.price)}}</span>
 
 
 

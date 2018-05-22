@@ -26,7 +26,7 @@
 									<span style="color: #666666;font-size: 3vw;">{{item.city}} </span>
 									<span style="color: #666666;font-size: 3vw">{{item.address}}</span>
 								</p>
-								<span style="float: right;color: #f15a4a;font-size: 4vw;"><span style="font-size: 2.5vw;"></span>{{item.price == '0.00' ? '面议' : '$' + item.price}}</span>
+								<span style="float: right;color: #f15a4a;font-size: 4vw;"><span style="font-size: 2.5vw;"></span>{{item.price == '0.00' ? '面议' : '$' + Number(item.price)}}</span>
 
 							</p>
 						</dd>
