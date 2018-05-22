@@ -46,7 +46,7 @@
 				<!-- title -->
 				<p class="zh_name">
 					<span>{{item.zh_name ? item.zh_name : item.title}}</span>
-					<span v-if="query == 'jour'" style="background: none;color: #f15a4a;font-size: 3.8vw">{{'$' + item.price + '/人'}}</span>
+					<span v-if="query == 'jour'" style="background: none;color: #f15a4a;font-size: 3.8vw;">{{'$' + item.price + '/人'}}</span>
 					<span v-if="query != 'jour'">营业中</span>
 				</p>
 
@@ -57,7 +57,7 @@
 				<!-- .. -->
 				<p class="star">
 					<span class="starIMG"><span :style="{width: Number(item.score)*10 + '%'}"><img src="/static/img/vehicle_icon_star.png"></span></span> 
-					<span style="display: inline-block;transform: translateY(-0.5vw) translateX(-1vw);font-size: 3vw"> {{item.star? item.star :item.score}} &nbsp;&nbsp;&nbsp;{{item.mc_count || item.comments}}评价<span v-if='item.category_title' style="transform: translateX(38vw);float: right;">{{item.category_title}}</span><span  id="openAA" v-if="query == 'jour' && item.open &&item.open.length">营业中</span><span id="openAA" v-if="query == 'jour' && item.open && !item.open.length">未营业</span></span>
+					<span style="display: inline-block;transform: translateY(-0.5vw) translateX(-1vw);font-size: 3vw">  &nbsp;&nbsp;&nbsp;{{item.mc_count || item.comments}}条<span v-if='item.category_title' style="transform: translateX(38vw);float: right;transform: translateX(49vw);">{{item.category_title}}</span><span  id="openAA" v-if="query == 'jour' && item.open &&item.open.length">营业中</span><span id="openBB" v-if="query == 'jour' && item.open && !item.open.length">未营业</span></span>
 					<span style="font-size: 3vw;">{{item.cate_title}}</span>
 				</p>
 					<!-- ... -->
@@ -528,18 +528,24 @@
 
 
 <style scoped lang="scss">
-#openAA{
+#openAA,#openBB{
 	float: right;
 	display: inline-block;
-	transform: translateX(40vw);
+	transform: translateX(52vw);
 	width: 5vw;
 	height: 3vw;
-	border:1px solid red;
+	color: #fff;
 	    width: 10vw;
     height: 3vw;
     font-size: 2.9vw;
     text-align: center;
     line-height: 3.5vw;
+}
+#openAA{
+	background: linear-gradient(to right, #41e9d0, #01d1b2);
+}
+#openBB{
+	background: linear-gradient(to right, #ff8777, #fb6b5c);
 }
 .warp{
 		width: 100%;

@@ -179,7 +179,7 @@
 		},
 		mounted(){
 			console.log(this.$route.name)
-			var duration = this.$route.name == 'cate' ? 4500 : 3500; 
+			var duration = this.$route.name == 'cate' ? 5000 : 3500; 
 			
 			if(!this.data.length){
 				var timer =  setTimeout(()=>{
