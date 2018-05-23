@@ -46,7 +46,7 @@
 				<!-- title -->
 				<p class="zh_name">
 					<span>{{item.zh_name ? item.zh_name : item.title}}</span>
-					<span v-if="query == 'jour'" style="background: none;color: #f15a4a;font-size: 3.8vw;">{{'$' + item.price + '/人'}}</span>
+					<span v-if="query == 'jour'" style="background: none;color: #f15a4a;font-size: 3.8vw;width: 14vw;transform: translateY(1vw);">{{'$' + item.price + '/人'}}</span>
 					<span v-if="query != 'jour'">营业中</span>
 				</p>
 
