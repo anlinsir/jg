@@ -3,7 +3,10 @@
 		<ul v-show='sets'>
 			<li @touchend='toDetali' @touchstart='toDetali' @touchmove='toDetali'  :data-id='item.id' v-for='(item,index) in data' :key='index'>
 				<dl :data-id='item.id'>
-					<dt><img :data-id='item.id' :src="item.image + '200_200.jpg'"></dt>
+					<dt>
+						<img :data-id='item.id' :src="item.image.indexOf('jpg') != -1 ? item.image : item.image + '200_200.jpg' ">
+						
+					</dt>
 					<dd :data-id='item.id'>
 						<p :data-id='item.id'><span :data-id='item.id' v-if='item.isStick' class="issss">置顶</span> <span :data-id='item.id'>{{item.title}}</span></p>
 						<p :data-id='item.id'><span :data-id='item.id' style="font-size: 3.63vw;"><span style='font-size: 2.4vw;' v-if="item.price != '0.00' ">$</span>{{item.price == '0.00' ? '面议' :  Number(item.price)}}</span>
@@ -43,7 +46,7 @@
 		</div>
 
 
-		<div style="width: 30vw;
+		<div style="width: 50vw;
     position: absolute;
     top: 0;
     left: 0;
@@ -58,7 +61,7 @@
 	-webkit-text-fill-color: transparent;
 	font-size:5vw ;
 }" v-if='none == 1'>
-			<p>没有了</p>
+			<p>暂时没有相关的数据</p>
 		</div>
 
 	</div>
@@ -131,7 +134,7 @@
 			this.none = 0
 			this.sets = 0
 
-			var dura = this.$route.name == 'rent' ? 4000 : 2000;
+			var dura = this.$route.name == 'rent' ? 4000 : 3000;
 		
 			if(!this.data.length){
 				var timer =  setTimeout(()=>{

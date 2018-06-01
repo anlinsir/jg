@@ -123,20 +123,25 @@
 	                    if(this.flag){
 	                     this.imgShow = false
 									if( window.navigator.userAgent.indexOf('iPhone' || 'iPad' || 'iPod') != -1){
+								this.$router.push('/down')
 												
-											 	// window.location.href =`jglist://deeplinks/openWith?grand_id=3&id=${id}`
-												window.location.href =`com.ziqi.easylife://3&${id}`;
-										setTimeout(()=>{
-											window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
-										},2000)
+										 window.location.href =`jglist://deeplinks/openWith?grand_id=3&id=${id}`
+										// 		window.location.href =`com.ziqi.easylife://3&${id}`;
+										 // setTimeout(()=>{
+										 // 	alert('未安装')
+											// // window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
+										 // },2000)
 										
 									}else if(window.navigator.userAgent.indexOf('Android') != -1){
+								this.$router.push('/down')
 										
 											 	window.location.href =`jglist://deeplinks/openWith?grand_id=3&id=${id}`
 										
-											setTimeout(()=>{
-												window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-											},2000)
+											// setTimeout(()=>{
+										 // 	alert('未安装')
+												
+											// 	// window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
+											// },2000)
 									}
 	                    }else{
 	                    // 滑动事件

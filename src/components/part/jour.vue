@@ -28,7 +28,7 @@
 				console.log(localStorage.Jourpages)
 				axios.get(`https://time2.jglist.com/index.php?r=newtravel/travel/list&auth_name=id&category_child=0&grand_id=8&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&page=${localStorage.Jourpages}`)
 				.then(res=>{
-					if(!res.data.data.length){alert('没有了')}
+					if(!res.data.data.length){alert('暂时没有相关的数据')}
 					for(let i in res.data.data){
 						this.data.push(res.data.data[i])
 					}
@@ -51,10 +51,10 @@
 					this.data = JSON.parse(localStorage.dataJour)
 					return
 				}
-			axios.get(`https://time2.jglist.com/index.php?r=newtravel/travel/list&auth_name=id&category_child=${localStorage.childJour ? localStorage.childJour : 0}&category_parent=${localStorage.parentJour? localStorage.parentJour : 0}&grand_id=8&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&type=${localStorage.JourType == 1 ? 1 : localStorage.JourType == 2 ? 2 : 0}`)
+			axios.get(`https://time2.jglist.com/index.php?r=newtravel/travel/list&auth_name=id&category_child=${localStorage.childJour ? localStorage.childJour : 0}&category_parent=${localStorage.parentJour? localStorage.parentJour : 0}&grand_id=8&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&type=${localStorage.JourType == 1 ? 1 : localStorage.JourType == 2 ? 2 : 0}&isOpen=${localStorage.JourOpen ? 1 : 0}`)
 				.then(res=>{
 					if(!res.data.data.length){
-						alert('none')
+						alert('暂时没有相关的数据')
 						localStorage.None = 1
 						// this.data = JSON.parse(localStorage.dataJour2)
 

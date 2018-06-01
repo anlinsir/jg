@@ -15,7 +15,10 @@
 			<div v-if='work != 3' class="basic">
 				<div class="header" v-for='(item,index) in details' :key='index'>
 					<dl>
-						<dt><img :src="item.header_img"></dt>
+						<dt>
+							<img :src="item.images[0].video ? item.header_img :item.header_img + '200_200.jpg'">
+								
+						</dt>
 						<dd>
 							<p class="over">{{item.nickname}}</p>
 							<p class="dlP">
@@ -40,8 +43,12 @@
 					<!-- 图片 -->
 					<div class="imgs" >
 						<p>
-							<img :src="items.image + '200_200.jpg'" v-for='(items,index) in item.images' :key='index'>
+							<img :src="item.images[0].video ?items.image : items.image + '200_200.jpg'" v-for='(items,index) in item.images' :key='index'>
 						</p>
+						<video v-if='item.images[0].video' v-for='(iii,ddd) in item.images' width="320" height="240" controls>
+								  <source :src="iii.video" type="video/mp4">
+									您的浏览器不支持Video标签。
+						</video>
 					</div>
 					<!-- 图片 end -->		
 				</div>
@@ -103,10 +110,10 @@
 					<p class="headerShow"   @click='openApp'><span>{{ role == 2 ? '商家': '经纪人'}}信息</span><span>查看详细信息 <img src="/static/img/home_icon_hkjt.png">	</span></p>
 					<dl v-for='(item,index) in details' :key='index'>
 						<dt>
-							<img :src="item.merchant.header ? item.merchant.header : item.merchant.header_img ?  item.merchant.header_img : '#' ">
+							<img :src="item.merchant.header ? item.merchant.header : item.merchant.header_img ?  item.merchant.header_img : item.header_img ? item.header_img : '#' ">
 						</dt>
 						<dd>
-							<span>{{item.merchant.zh_name ? item.merchant.zh_name : ' '}} <img v-if='item.license == 2' style="width: 3.46vw;height: 3.46vw;vertical-align: middle;transform: translateX(1vw);" src="/static/img/businessservice_icon_vip.png"><img v-if='item.license != 2' style="width: 3.46vw;height: 3.46vw;vertical-align: middle;transform: translateX(1vw); " src="/static/img/businessservice_icon_vip_gray.png"></span>
+							<span>{{item.merchant.zh_name ? item.merchant.zh_name : ' '}} <img v-if='item.merchant.license == 2' style="width: 3.46vw;height: 3.46vw;vertical-align: middle;transform: translateX(1vw);" src="/static/img/businessservice_icon_vip.png"><img v-if='item.merchant.license != 2' style="width: 3.46vw;height: 3.46vw;vertical-align: middle;transform: translateX(1vw); " src="/static/img/businessservice_icon_vip_gray.png"></span>
 							<span>{{item.merchant.en_name}}</span>
 						</dd>						
 					</dl>
@@ -114,19 +121,19 @@
 						<ul>
 							<li>
 								<p><img src="/static/img/recruitment_icon_businessmen.png"><span>{{role == 2 ? '商家' : '经纪人'}}</span></p>
-								<p><img src="/static/img/recruitment_icon_weixin_gray.png"><span>微信认证</span></p>
+								<p><img :src="item.merchant.wechat ? '/static/img/vehicle_icon_weixin.png' :'/static/img/recruitment_icon_weixin_gray.png' "><span>微信认证</span></p>
 								<p><img src="/static/img/businessservice_icon_zhizhao_gray.png"><span>{{role == 2 ? '营业执照认证' : '身份证认证'}}</span></p>
 
 							</li>
 							<li>
-								<p><span>行业知识</span><span>0.0</span></p>
-								<p><span>产品质量</span><span>0.0</span></p>
-								<p><span>服务水平</span><span>0.0</span></p>
+								<p><span>行业知识</span><span>{{item.merchant.in_score}}</span></p>
+								<p><span>产品质量</span><span>{{item.merchant.pr_score}}</span></p>
+								<p><span>服务水平</span><span>{{item.merchant.se_score}}</span></p>
 							</li>
 							<li>
-								<span>{{item.score || '0.0'}} 分</span>
+								<span>{{item.score || item.merchant.score || '0.0'}} 分</span>
 								<span class="starWarp">
-									<span class="starWidth" :style="{width:item.score? item.score : 0  + '%'}">
+									<span class="starWidth" :style="{width:item.merchant.score ? Number(item.merchant.score)*20  + '%': 0  + '%'}">
 										<img  src="/static/img/vehicle_icon_star.png">
 									</span>
 								</span>
@@ -157,7 +164,7 @@
 					</div>
 					
 				</div>
-				<div  @touchstart='openApp' @touchend='openApp' @touchmove='openApp'   v-if='comment' class="comment">
+				<div  v-if='comment' class="comment">
 						{{comment}}
 				</div>	
 				<div class="comments" v-if='comments.length != 0' v-for='(item,index) in comments'>
@@ -165,7 +172,7 @@
 						<dt><img :src="item.senter_header" alt='加载失败'></dt>
 						<dd>
 							<p>{{item.senter_nickname}}</p>
-							<p><span>来自</span><span>{{item.create_time}}</span></p>
+							<p><span>来自</span><span>{{item.address}}</span></p>
 						</dd>
 
 					</dl>
@@ -207,7 +214,8 @@
 				want:0,
 				app:'1',
 				idd:'0',
-				isShows:false
+				isShows:false,
+				vu:0
 			})
 		}
 		,
@@ -236,20 +244,25 @@
 	                    break;
 	                case 'click':
 	                		if( window.navigator.userAgent.indexOf('iPhone' || 'iPad' || 'iPod') != -1){
+											this.$router.push('/down')
 								
 								 	window.location.href =`com.ziqi.easylife://${this.app}&${this.idd}`;							
-
-							setTimeout(()=>{
-								window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
-							},2000)
+								 	
+							// setTimeout(()=>{
+							// 	alert('未安装')
+							// 	window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
+							//  },2000)
 							
 						}else if(window.navigator.userAgent.indexOf('Android') != -1){
+											this.$router.push('/down')
 								
 								 	window.location.href =`jglist://deeplinks/openWith?grand_id=${this.app}&id=${this.idd}`
+								 	// alert('未安装')
 								
-								setTimeout(()=>{
-									window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-								},2000)
+								// setTimeout(()=>{
+								// 	alert('未安装')
+								// 	// window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
+							 // },2000)
 						}
 	                	break
 	                case 'touchmove':
@@ -262,21 +275,23 @@
 					}
 
 							if( window.navigator.userAgent.indexOf('iPhone' || 'iPad' || 'iPod') != -1){
-								
+								this.$router.push('/down')
 								 	window.location.href =`com.ziqi.easylife://${this.app}&${this.idd}`;							
-								 	
 								
-							setTimeout(()=>{
-								window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
-							},2000)
+							// setTimeout(()=>{
+							// 	alert('未安装') 	
+
+							// // 	window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
+							// },2000)
 							
 						}else if(window.navigator.userAgent.indexOf('Android') != -1){
-								
+								this.$router.push('/down')
 								 	window.location.href =`jglist://deeplinks/openWith?grand_id=${this.app}&id=${this.idd}`
-								
-								setTimeout(()=>{
-									window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-								},2000)
+								// setTimeout(()=>{
+								// // 	window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
+								// 	alert('未安装')
+
+								// },2000)
 						}
 	                    }else{
 	                    // 滑动事件
@@ -772,7 +787,6 @@
 										>img{
 										width: 20.8vw;
 										height: 3.73vw;
-										vertical-align: middle;
 										}
 									}
 								}
@@ -907,7 +921,7 @@
 								font-size: 2.4vw;
 								color: #999999;
 								>:nth-child(2){
-									float: right;
+									margin-left: 2vw;
 
 								}
 							}

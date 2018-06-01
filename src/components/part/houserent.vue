@@ -52,7 +52,7 @@
 				axios.get(`https://time2.jglist.com/index.php?r=v2/magor/lists&auth_name=id&city_id=${localStorage.RentCity ? localStorage.RentCity : 0 }&level=${localStorage.RentAdd ? localStorage.RentAdd : 0}&cate_id=${localStorage.RentCate ? localStorage.RentCate : 0}&grand_id=4&source=${localStorage.RentRole ? localStorage.RentRole : 0}&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&type=${localStorage.RentTime ? localStorage.RentTime : 3 }&page=${localStorage.pages4}&lat=${localStorage.LAT ? localStorage.LAT : 0}&lng=${localStorage.LNG ? localStorage.LNG : 0}`)
 				.then(res=>{
 					if(!res.data.data.length){
-						alert('没有了')
+						alert('暂时没有相关的数据')
 						return
 
 					}

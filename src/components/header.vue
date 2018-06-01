@@ -4,7 +4,7 @@
 			<span @click='toIndex' v-if='left == 1' :style="{color: color ? color : '' }"  class="back"><img class="backk" src="/static/img/businessservice_icon_return_white.png"></span>
 			<span @click='toIndex' v-if='left == 2' :style="{color: color ? color : '' }"  class="back"><img style="width: 2.66vw;height: 4.8vw;" src="/static/img/businessservice_icon_return_whitess.png"></span>
 
-			<form > <input  :style="{backgroundColor: wi ? '#fff' :''}" v-model='text' @click='toseac'  @keydown.enter='sendSearch'  type="text" placeholder="输入商家、商品名称" /></form>
+			<form > <input  :style="{backgroundColor: wi ? '#fff' :''}" v-model='text' @click='toseac'  @keydown.13='sendSearch'  type="search" placeholder="输入商家、商品名称" /></form>
 			<span class="posi" v-show='0'>dsdddsdsds</span>
 	</header>
 
@@ -46,6 +46,7 @@
 					 switch (name) {
 	              		case 'used':
 	              			this.$router.push({path:'/search',query:{part:1}})
+	    
 	              			break;
 	              		case 'car':
 	              			this.$router.push({path:'/search',query:{part:2}})
@@ -75,10 +76,26 @@
 					
 				}
 				this.$emit('show',true)
-			},
-			sendSearch(){
 
-				this.$emit('getVal',this.text)
+			},
+			sendSearch(e){
+				
+					 if (e && e.preventDefault) {
+			            //阻止默认浏览器动作(W3C) 
+			            e.preventDefault();
+			        }
+			        else {
+			            //IE中阻止函数器默认动作的方式 
+			            window.event.returnValue = false;
+			            return false;
+			        }
+
+					this.$emit('getVal',this.text)
+
+
+
+
+				
 			//enter发请求  通过 子传夫  把拿到的数据  传到 searcb里面
 					//吧类别 存到longstage里
 				// 	this.$router.push({ path:'/search'})
@@ -182,7 +199,7 @@ width: 2.66vw;height: 4.8vw;
 				font-size: 3.5vw;
 				background-image: url(/static/img/home_icon_search.png);
 				background-repeat: no-repeat;
-				background-position: 28%;
+				background-position: 25%;
 
 			}
 			}

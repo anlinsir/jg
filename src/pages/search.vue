@@ -184,7 +184,7 @@
 						console.log(res.data.data)
 						if(!res.data.data.length){
 							this.showff = false
-							alert('没有了')
+							alert('暂时没有相关的数据')
 
 							return
 						}
@@ -200,7 +200,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								return
 							}
 							for(let i in res.data.data){
@@ -216,7 +216,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								return
 							}
 							for(let i in res.data.data){
@@ -231,7 +231,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								return
 							}
 							for(let i in res.data.data){
@@ -246,7 +246,7 @@
 							console.log(res.data.data)
 							if(!res.data.data.length){
 								this.showff = false
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								return
 							}
 							for(let i in res.data.data){
@@ -263,21 +263,24 @@
 
 			},
 			getVal(val){
-				this.productList = []
+				if(this.productList.length != 0){
+					this.productList = []
+
+				}
 				this.sets = true
 				this.setss = false
 				localStorage.searchPages = 1
 				// ${localStorage.searchPages? localStorage.searchPages : 1}
 				this.val =  val
 				console.log(this.val,this.$route.query.part)
-				https://time2.jglist.com/index.php?r=merchant/shop/list&auth_name=id&category_child=0&grand_id=5&id=1&lat=32&lng=123&name=%E7%94%B5&tx=3f556f66353c5945a3633ae209a3e0ffx
+				//https://time2.jglist.com/index.php?r=merchant/shop/list&auth_name=id&category_child=0&grand_id=5&id=1&lat=32&lng=123&name=%E7%94%B5&tx=3f556f66353c5945a3633ae209a3e0ffx
 				console.log(`https://time2.jglist.com/index.php?r=v2/magor/lists&auth_name=id&cate_id=0&grand_id=${this.$route.query.part}&id=1&tx=3f556f66353c5945a3633ae209a3e0ff${this.val}&page=1`)
 				if(this.$route.query.part == 1 || this.$route.query.part == 2 || this.$route.query.part == 3 ||this.$route.query.part == 4){
 				axios.get(`https://time2.jglist.com/index.php?r=v2/magor/lists&auth_name=id&cate_id=0&grand_id=${this.$route.query.part}&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&search=${this.val}&page=1`)
 
 					.then((res)=>{
 						if(!res.data.data.length){
-							alert('没有了')
+							alert('暂时没有相关的数据')
 							this.sets = 0
 							return
 						}
@@ -290,7 +293,7 @@
 					axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/list&auth_name=id&grand_id=5&id=1&name=${this.val}&tx=3f556f66353c5945a3633ae209a3e0ff`)
 						.then((res)=>{
 							if(!res.data.data.length){
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								this.sets = 0
 								return
 							}
@@ -305,7 +308,7 @@
 					axios.get(`https://time2.jglist.com/index.php?r=delicacy/food/list&auth_name=id&grand_id=6&id=1&tx=3f556f66353c5945a3633ae209a3e0ff&search=${this.val}`)
 						.then((res)=>{
 							if(!res.data.data.length){
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								this.sets = 0
 								return
 							}
@@ -319,7 +322,7 @@
 					axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/privilegelist&auth_name=id&id=1&lat=30.55102013717875&lng=104.06901177707833&tx=3f556f66353c5945a3633ae209a3e0ff&search=${this.val}`)
 						.then((res)=>{
 							if(!res.data.data.length){
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								this.sets = 0
 								return
 							}
@@ -333,7 +336,7 @@
 					axios.get(`https://time2.jglist.com/index.php?r=newtravel/travel/list&auth_name=id&grand_id=8&id=1&search=${this.val}&tx=3f556f66353c5945a3633ae209a3e0ff`)
 						.then((res)=>{
 							if(!res.data.data.length){
-								alert('没有了')
+								alert('暂时没有相关的数据')
 								this.sets = 0
 								return
 							}
@@ -345,6 +348,7 @@
 						})
 					
 				}
+				
 			},
 			down(aid,pid,sid){
 				var part = this.$route.query.part
@@ -421,7 +425,6 @@
 					
 		},
 		mounted(){
-	
 		},
 		created(){
 			localStorage.searchPages = 1

@@ -4,6 +4,8 @@ const Index = r =>require.ensure([],() => r(require('@/pages/index')),'index')
 const Search = r =>require.ensure([],() => r(require('@/pages/search')),'search')
 const Part = r =>require.ensure([],() => r(require('@/pages/part')),'part')
 const Regard = r =>require.ensure([],() => r(require('@/pages/regard')),'regard')
+const Down = r =>require.ensure([],() => r(require('@/pages/down')),'down')
+
 
 //component in Part
 const Used = r =>require.ensure([],() => r(require('@/components/part/used')),'used')
@@ -117,6 +119,10 @@ export default new Router({
     {
         path:'/rate',
         component:Rate
+    },
+     {
+        path:'/down',
+        component:Down
     },
     {path:"/",redirect:"/index"}
     ,

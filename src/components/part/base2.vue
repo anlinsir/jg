@@ -63,7 +63,7 @@
 					<span id='xia' data-iid='id'>点击加载更多...</span>
 
 		</div>
-			<div style="width: 30vw;
+			<div style="width:  50vw;
     position: absolute;
     top: 0;
     left: 0;
@@ -78,7 +78,7 @@
 	-webkit-text-fill-color: transparent;
 	font-size:5vw ;
 }" v-if='none == 1'>
-			<p>没有了</p>
+			<p>暂时没有相关的数据</p>
 		</div>
 
 

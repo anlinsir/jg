@@ -136,7 +136,7 @@
 				</section>
 
 
-			<!-- 结尾 end -->				
+			<!-- 结尾 end -->
 		</main>
 
 		<Footer></Footer>
@@ -157,6 +157,7 @@
 	
 		data(){
 			return({
+				tar:false,
 				li:[
 					{
 						img:'/static/img/home_icon_second.png',
@@ -335,20 +336,29 @@
 			}
 			,
 			downAPP(){
-
+				this.tar = true
 				
 				if( window.navigator.userAgent.indexOf('iPhone' || 'iPad') != -1){
 						 // window.location.href =`jglist://deeplinks/openWith`
-						 window.location.href =`com.ziqi.easylife://`;
-					setTimeout(()=>{
+					// 	 window.location.href =`com.ziqi.easylife://`;
+					// setTimeout(()=>{
 						window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
-					},2000)
+					// },2000)
 					
 				}else if(window.navigator.userAgent.indexOf('Android') != -1){
-							 window.location.href =`jglist://deeplinks/openWith`
-						setTimeout(()=>{
+					
+
+						
+							 // window.location.href =`jglist://deeplinks/openWith`
+							
+							 // setTimeout(()=>{
+							 // 	alert('您的设备没有安装简购生活APP')
+							 // },2000)
+
+
+						// setTimeout(()=>{
 							window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-						},2000)
+						// },2000)
 				}
 			
 			},

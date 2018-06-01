@@ -44,7 +44,7 @@
 				axios.get(`https://time2.jglist.com/index.php?r=v2/magor/lists&auth_name=id&cate_id=${localStorage.UsedCate ? localStorage.UsedCate : 0 }&grand_id=1&id=1&source=${localStorage.UsedRole ? localStorage.UsedRole : 0 }&city_id=${localStorage.UsedCity ? localStorage.UsedCity  : 0}&level=${localStorage.UsedCity ? localStorage.UsedAdd : ''}&tx=3f556f66353c5945a3633ae209a3e0ff&page=${localStorage.pages1}&type=${localStorage.UsedTime ? localStorage.UsedTime : 3 }&lat=${localStorage.LAT ? localStorage.LAT : 0}&lng=${localStorage.LNG ? localStorage.LNG : 0}`)
 				.then(res=>{
 					if(!res.data.data.length){
-						alert('没有了')
+						alert('暂时没有相关的数据')
 						
 						
 

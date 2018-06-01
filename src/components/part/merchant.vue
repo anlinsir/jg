@@ -33,7 +33,7 @@
 				axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/list&auth_name=id&category_child=${localStorage.childMer ? localStorage.childMer : 0}&category_parent=${localStorage.parentMer ? localStorage.parentMer : 0 }&grand_id=5&id=1&lat=32&lng=123&tx=3f556f66353c5945a3633ae209a3e0ff&type=${localStorage.DisMer == 0 || localStorage.DisMer == 2 ? localStorage.DisMer : 1}&isOpen=${localStorage.OPenMer ? localStorage.OPenMer : 0}&page=${localStorage.Merpages}`)
 				.then(res=>{
 					if(!res.data.data.length){
-						alert('没有了')
+						alert('暂时没有相关的数据')
 						return
 
 					}
@@ -67,7 +67,7 @@
 			axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/list&auth_name=id&category_child=${localStorage.childMer ? localStorage.childMer : 0}&category_parent=${localStorage.parentMer ? localStorage.parentMer : 0 }&grand_id=5&id=1&lat=32&lng=123&tx=3f556f66353c5945a3633ae209a3e0ff&type=${localStorage.DisMer == 0 || localStorage.DisMer == 2 ? localStorage.DisMer : 1}&isOpen=${localStorage.OPenMer ? localStorage.OPenMer : 0}`)//page
 				.then(res=>{
 					if(!res.data.data.length){
-						alert('1')
+						alert('暂时没有相关的数据')
 						localStorage.None =1
 						// this.data = JSON.parse(localStorage.dataMer2)
 						return

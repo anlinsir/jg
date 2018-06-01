@@ -12,7 +12,7 @@
 
 			<div class="showWarp" v-if='show'>
 			<div class="show" >
-				<p>在APP store 中打开？</p>
+				<p>在{{msg}}中打开？</p>
 				<span class="qu" @touchend='nowDown'>取消</span>
 				<span @touchend='nowDown' class="co">立即下载</span>
 			</div>
@@ -40,7 +40,8 @@
 		,
 		data(){
 			return({
-				show:false
+				show:false,
+				msg:''
 			})
 		},
 		methods:{
@@ -56,28 +57,23 @@
 					this.show = false
 				}else if(e.target.className =='co'){
 
-						console.log('ygvjklk')
-						axios.get(`https://jglist.onelink.me/1789171185?pid=mobileWebPage`)
-							.then(res=>{
-								console.log(res)
-							})
-						return
+						
 							if( window.navigator.userAgent.indexOf('iPhone' || 'iPad' || 'iPod') != -1){
 								
-								 window.location.href =`com.ziqi.easylife://${this.app}&${this.idd}`;
-								setTimeout(()=>{
+								//  window.location.href =`com.ziqi.easylife://${this.app}&${this.idd}`;
+								// setTimeout(()=>{
 									window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
-								},2000)
+								// },2000)
 
 
 							
 						}else if(window.navigator.userAgent.indexOf('Android') != -1){
 								
-								 	window.location.href =`jglist://deeplinks/openWith?grand_id=${this.app}&id=${this.idd}`
+								//  	window.location.href =`jglist://deeplinks/openWith?grand_id=${this.app}&id=${this.idd}`
 								
-								setTimeout(()=>{
+								// setTimeout(()=>{
 									window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-								},1500)
+								// },1500)
 						}
 
 
@@ -86,6 +82,26 @@
 			}
 		},
 		mounted(){
+
+
+			if( window.navigator.userAgent.indexOf('iPhone' || 'iPad' || 'iPod') != -1){
+								
+				this.msg = 'APP Store'
+							
+			}else if(window.navigator.userAgent.indexOf('Android') != -1){
+				this.msg = '应用商店'
+
+
+			}
+
+
+
+
+
+
+
+
+
 			setTimeout(()=>{
 				this.show = this.isShow
 			},1000)

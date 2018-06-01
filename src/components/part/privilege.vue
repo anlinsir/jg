@@ -81,11 +81,11 @@
 				this.list = JSON.parse(localStorage.dataPri)
 				return
 			}
-			axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/privilegelist&auth_name=id&cate=${localStorage.childPri ? localStorage.childPri : 0}&grand_id=${localStorage.parentPri ? localStorage.parentPri : 0 }&role=${localStorage.PriRole ? localStorage.PriRole : 0}&id=1&lat=30.55102013717875&lng=104.06901177707833&tx=3f556f66353c5945a3633ae209a3e0ff&sort=${localStorage.SortPri ==1 ? 1 : localStorage.SortPri == 2 ? 2 :0}`)
+			axios.get(`https://time2.jglist.com/index.php?r=merchant/shop/privilegelist&auth_name=id&cate=${localStorage.childPri ? localStorage.childPri : 0}&grand_id=${localStorage.parentPri ? localStorage.parentPri : 0 }&role=${localStorage.PriRole ? localStorage.PriRole : 0}&id=1&lat=30.55102013717875&lng=104.06901177707833&tx=3f556f66353c5945a3633ae209a3e0ff&sort=${localStorage.SortPri || 0}&pcate=${localStorage.parentPcate ? localStorage.parentPcate : 0}`)
 				.then(res=>{
 					console.log(res.data.data)
 					if(!res.data.data.length){
-						alert('none')
+						alert('暂时没有相关的数据')
 						localStorage.none = 1
 						this.none = localStorage.none
 						// this.list =JSON.parse(localStorage.dataPri2)

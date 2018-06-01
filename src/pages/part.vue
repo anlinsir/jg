@@ -7,8 +7,8 @@
 			<section class="choose">
 				<ul>
 					<li :class="active == index ? 'active' : '' " @touchstart='choose(index,$event,9)' data-iss='warp'  @touchend='choose(index,$event,9)' @touchmove='choose(index,$event,9)' v-for='(item,index) in nav ' :key="index">{{item.name}}<span  v-if='item.sel'></span>
-						<ul :style="{left: nav[3].sel && !nav[4] ? index == 0 ? 1 * -20 + '%' : index * -130 + '%' :index == 0 ? 1*-20 + '%' : index*-100 + '%'}"  v-if='item.sel' v-show='showPart == index' :key='index' id='chooseItem'>
-							<li  @touchstart.stop='chooseItem(indexs,$event,items.child)' @touchend.stop='chooseItem(indexs,$event,items.child)' :data-pricess='items.pricess'  :data-add='items.level'   @touchmove.stop='chooseItem(indexs,$event,items.child)' @mouseenter="chooseItem(indexs,$event)" :key='indexs'  :data-id='items.id' :data-role="item.role ? item.role: '' " v-for="(items,indexs) in useClassify  ? useClassify[0].child?  useClassify[0].child.length ?   useClassify[0].child: useClassify : useClassify : '' ">
+						<ul  :style="{left: nav[3].sel && !nav[4] ? index == 0 ? 1 * -20 + '%' : index * -130 + '%' :index == 0 ? 1*-20 + '%' : index*-100 + '%'}"  v-if='item.sel' v-show='showPart == index' :key='index' id='chooseItem'>
+							<li   @touchstart.stop='chooseItem(indexs,$event,items.child)' @touchend.stop='chooseItem(indexs,$event,items.child)' :data-pricess='items.pricess'  :data-add='items.level'   @touchmove.stop='chooseItem(indexs,$event,items.child)' @mouseenter="chooseItem(indexs,$event)" :key='indexs'  :data-id='items.id' :data-role="item.role ? item.role: '' " v-for="(items,indexs) in useClassify  ? useClassify[0].child?  useClassify[0].child.length ?   useClassify[0].child: useClassify : useClassify : '' ">
 									<span :class="active == index ? 'active' : '' " v-if='items.child && items.child.length'>></span>{{items.title}}
 								<ul v-if='items.child && showPartItem == indexs'>
 									<li @touchstart.stop='hide(indexss,$event,props.id,props.title)' @touchmove.stop='hide(indexss,$event,props.id,props.title)' @touchend.stop='hide(indexss,$event,props.id,props.title)' v-for='(props,indexss) in items.child' :data-id='items.id'  :key='indexss' :data-pid='props.id'>{{props.title}}</li>
@@ -100,7 +100,9 @@
 	        			}
 	                    			
 	                }
-            	if(name == 'merchant'){ // || name == 'privilege' || name == 'jour'
+            	
+
+                if(name == 'merchant'){ // || name == 'privilege' || name == 'jour'
             		
                 	if(this.showPart == 0){
                 		localStorage.NavChooseMer0 =  e.target.innerText
@@ -118,6 +120,7 @@
 
 
                 if(name == 'jour'){
+
                 	localStorage.removeItem('dataJour')
                 	if(this.showPart == 0){
                 	localStorage.NavChooseJour0 = e.target.innerText
@@ -126,6 +129,7 @@
                 		localStorage.childJour = e.target.dataset.pid
                 		location.reload()
                 	}
+                	
                 }
 
 
@@ -141,6 +145,29 @@
             				location.reload()                    				
 
             			}
+            			if(this.showPart == 1){
+	                    			
+	                    			// &sort=2
+	                    	if(localStorage.SortPri == '1'){
+	                    		localStorage.removeItem('SortPri')
+	                    		location.reload()
+	                    			return
+	                    		}
+                		
+
+	                    			localStorage.SortPri = 1
+	                    			location.reload()
+	                    		}
+	                    if(this.showPart == 2){
+	                    			// &sort=2
+	                    			if(localStorage.SortPri == '2'){
+	                    				localStorage.removeItem('SortPri')
+	                    				location.reload()
+	                    				return
+	                    			}
+	                    			localStorage.SortPri = 2
+	                    			location.reload()
+	                    		}
 
             		}
 				this.showPart = -1	
@@ -376,6 +403,17 @@
 	                    			location.reload()
 	                    			return
 	                    		}
+	                    		if(index == 3){
+	                    			if(localStorage.JourOpen){
+	                    				localStorage.removeItem('JourOpen')
+	                    				location.reload()
+	                    				return
+	                    			}
+	                    			
+				                		localStorage.JourOpen = 1
+				                		location.reload()
+				                		return
+                				}
 	                    		
 	                    	}
 
@@ -384,13 +422,17 @@
 
 	                    	
 	                    	if(name == 'privilege'){
+	                    		localStorage.removeItem('dataPri')
 	                    		if(index == 1){
+	                    			
 	                    			// &sort=2
 	                    			if(localStorage.SortPri == '1'){
 	                    				localStorage.removeItem('SortPri')
 	                    				location.reload()
 	                    				return
 	                    			}
+                		
+
 	                    			localStorage.SortPri = 1
 	                    			location.reload()
 	                    		}
@@ -488,8 +530,12 @@
 										this.useClassify = [{title:'不限',id:0},{title:'商家',id:1},{title:'经纪人',id:2}]
 									}
 									if(index == 0){
-										this.useClassify = JSON.parse(localStorage.basedata).merchant
+										this.useClassify =JSON.parse(localStorage.basedata).merchant
 
+									}
+									if(index == 4){
+										this.useClassify  = (JSON.parse(localStorage.basedata).delicacy)
+										
 									}
 								}
 
@@ -735,6 +781,15 @@
                 						localStorage.childPri = e.target.dataset.pid || 0
                 						location.reload()  
 	                    			}
+	                    			if(this.showPart == 4){
+											
+	                    				localStorage.NavChoosePri4 = e.target.innerText
+	                    				localStorage.parentPcate = e.target.dataset.id
+	                    				console.log(localStorage.parentPcate)
+
+                						this.nav[this.showPart].name =localStorage.NavChoosePri4 
+                						location.reload()
+	                    			}
 
 	                    		}
 	                    		if(name == 'jour'){
@@ -977,7 +1032,9 @@
 						{
 							name:localStorage.PriChoose3 ? localStorage.PriChoose3.substring(0,2) + '...' : '筛选',
 							sel:true
-
+						},{
+							name:localStorage.PriChoose3 ? localStorage.PriChoose3.substring(0,2) + '...' : '美食',
+							sel:true
 						}
 					
 					]

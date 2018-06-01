@@ -46,8 +46,8 @@
 				<!-- title -->
 				<p class="zh_name">
 					<span>{{item.zh_name ? item.zh_name : item.title}}</span>
-					<span v-if="query == 'jour'" style="background: none;color: #f15a4a;font-size: 3.8vw;width: 14vw;transform: translateY(1vw);">{{'$' + item.price + '/人'}}</span>
-					<span v-if="query != 'jour'">营业中</span>
+					<span v-if="query == 'jour'" style="background: none;color: #f15a4a;font-size: 3.8vw;width: 13vw;transform: translateY(1vw) translateX(-0.5vw);text-align: right;">{{'$' + item.price + '/人'}}</span>
+					<span v-if="query == 'sss'">营业中</span>
 				</p>
 
 				<!-- .. -->
@@ -57,7 +57,7 @@
 				<!-- .. -->
 				<p class="star">
 					<span class="starIMG"><span :style="{width: Number(item.score)*10 + '%'}"><img src="/static/img/vehicle_icon_star.png"></span></span> 
-					<span style="display: inline-block;transform: translateY(-0.5vw) translateX(-1vw);font-size: 3vw">  &nbsp;&nbsp;&nbsp;{{item.mc_count || item.comments}}条<span v-if='item.category_title' style="transform: translateX(38vw);float: right;transform: translateX(49vw);">{{item.category_title}}</span><span  id="openAA" v-if="query == 'jour' && item.open &&item.open.length">营业中</span><span id="openBB" v-if="query == 'jour' && item.open && !item.open.length">未营业</span></span>
+					<span style="display: inline-block;transform: translateY(-0.5vw) translateX(-1vw);font-size: 3vw">  &nbsp;&nbsp;&nbsp;{{item.mc_count || item.comments}}条<span v-if='item.category_title' style="transform: translateX(38vw);float: right;transform: translateX(49vw);">{{item.category_title}}</span><span  v-if="query == 'jour' && item.open &&item.open.length"></span><span  v-if="query == 'jour' && item.open && !item.open.length"></span></span>
 					<span style="font-size: 3vw;">{{item.cate_title}}</span>
 				</p>
 					<!-- ... -->
@@ -65,7 +65,7 @@
 					<span>{{item.in_score ? '经验' + item.in_score : '游玩时间' + item.playtime}} </span>
 					<span>{{item.se_score ? '水平' +item.se_score  :'' }}</span>
 					<span> {{item.se_score ? '质量' + item.se_score : ''}}</span> 
-					<span style="float: right;transform: translateX(8vw);">{{item.price && item.price.indexOf('$') == -1 ? '$' + item.price + '/人': item.distance + '英里'}} </span>
+					<span style="float: right;transform: translateX(8vw);">{{item.price && item.price.indexOf('$') == -1 ? '': item.distance + '英里'}} </span>
 					<!-- |'  : ''}}{{item.distance + '英里' -->
 				</p>
 				<p class="palyTime" v-if="query == jour">
@@ -88,7 +88,21 @@
 			</div>
 
 			<div class="mapWarp">
-				<div class="map" >
+				<div class="map"  style="position: relative;">
+					<img style="    position: absolute;
+    top: 27vw;
+    z-index: 101;
+    width: 4vw;
+    height:5vw;
+    left: 12vw;
+    background-color: transparent;
+    margin-right: 3vw;
+" src="/static/img/release_icon_location.png">
+					<span style="position: absolute;    box-sizing: border-box;
+    padding-left: 8vw;    bottom: 11vw;
+    text-align: center;
+    transform: translateX(12.5%);z-index: 100;font-size:3.5vw;display: inline-block;width: 80%;height: 8vw;background-color: #fff;text-align: center; line-height: 8.5vw;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+">{{item.address}}</span>
 					<div style="width: 100%;height: 50vw;"  id='maps'>
   						  <!-- <baidu-map :center="center" :zoom="zoom" @ready="handler" style="width: 100%;height: 45vw;"></baidu-map> -->
 						 <div id="mapsss" :data-id='lat' style="width:100%;height:40vw"></div>
@@ -97,8 +111,13 @@
 				<div class="other">
 					<p class="infomation">{{item.info ? item.info : '还没有介绍哦'}}</p>
 					<p class="poenMore" v-if='item.info'>展开全文</p>
-					<p class="phone">电话  <span class="text">{{item.tel}}</span><span @touchstart='down' @touchend='down' @touchmove='down' class="call">拨号</span></p>
-					<p class="add"><span class="adddd">地址</span> <span class="text">{{item.address}}</span></p>
+					<p class="phone">电话  <span class="text" style="color: #00d1b2;font-weight: bold;font-size: 3.5vw;transform: translateY(0.1vw) translateX(0.8vw); display: inline-block;letter-spacing: 0.1vw;">{{item.tel}}</span><span @touchstart='down' @touchend='down' @touchmove='down' class="call">拨号</span></p>
+					<!-- <div class="add"><span class="adddd"></span> <p class="text" v-for="(ii,iid) in item.open">{{ii.first_start + '-' + ii.first_end}}</p><span>dsj</span></div> -->
+					<span :style="{color: item.open.length ? '#01d1b2' : '#fb6b5c'}" style="float: right;font-size: 3vw;transform: translateY(1vw);">{{item.open.length  ? '营业中' : '歇业中'}}</span>
+					<dl style="display: flex;min-height: 25vw;margin-top: 5vw;" :style="{minHeight: item.open.length ? '0vw' : ''}" class="add">
+						<dt class="adddd">时间</dt>
+						<dd style="transform: translateX(8vw);min-height: 20vw"><p v-if='item.open && item.open.length' v-for="(ii,iid) in item.open">{{ii.first_start + '-' + ii.first_end + '&nbsp;&nbsp;&nbsp;&nbsp;星期' }}{{iid == 0 ? '一' : iid=='1' ? '二' : iid == 2 ? '三': iid == 3 ? '四' : iid == 4 ? '五' : iid == 5 ?'六':'日' }}</p><p v-if='!item.open ||  !item.open.length'>...</p></dd>
+					</dl>
 				</div>
 
 
@@ -123,7 +142,7 @@
 						评论 · {{comment.length}}
 					</span>
 				</p>
-				 <p class="noComment" v-if="comment.length == 0">目前还没有评论哦</p>
+				 <p class="noComment" v-if="comment.length == 0" style="font-size: 4vw">目前还没有评论哦</p>
 
 		 		<dl :data-id='items.comment_id' class="hasComment" v-if="comment.length != 0" v-for='(items,index) in comment.length ? comment : 1' :key='index'>  
 					<dt><img :src="items.user_header" ></dt>
@@ -209,7 +228,7 @@
 		</main>
 
 
-		<Footer isShow='true'></Footer>
+		<Footer></Footer>
 
 
 
@@ -249,7 +268,7 @@
 		},
 		methods:{
 			down(e){
-				console.log(e.type)
+				console.log(window.navigator.userAgent)
 			 switch (e.type) {
 	                case 'touchstart':
 	                    this.flag = true;
@@ -261,9 +280,9 @@
 	                case 'touchend':
 	                    if(this.flag){
 	                     this.imgShow = false
+	                   
 									if( window.navigator.userAgent.indexOf('iPhone' || 'iPad' || 'iPod') != -1){
-								 	
-							
+								 		 
 											if(this.$route.query.tyep == 'mer'){
 											 	// window.location.href =`jglist://deeplinks/openWith?grand_id=12&id=${this.$route.params.id}`
 											 	window.location.href =`com.ziqi.easylife://12&${this.$route.params.id}`;
@@ -274,11 +293,16 @@
 												window.location.href =`com.ziqi.easylife://8&$${this.$route.params.id}`;
 											 	// window.location.href =`jglist://deeplinks/openWith?grand_id=8&id=${this.$route.params.id}`
 											}
-										setTimeout(()=>{
-											window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
-										},2000)
+											
+											this.$router.push('/down')
+
+										//  setTimeout(()=>{
+										// 	alert('未安装')
+										// // 	window.location.href = 'https://itunes.apple.com/cn/app/id1192657874?mt=8'
+										//  },2000)
 										
 									}else if(window.navigator.userAgent.indexOf('Android') != -1){
+										
 											if(this.$route.query.tyep == 'mer'){
 											 	window.location.href =`jglist://deeplinks/openWith?grand_id=12&id=${this.$route.params.id}`
 											}else if(this.$route.query.tyep == 'cate'){
@@ -286,9 +310,15 @@
 											}else if(this.$route.query.tyep == 'jour'){
 											 	window.location.href =`jglist://deeplinks/openWith?grand_id=8&id=${this.$route.params.id}`
 											}
-											setTimeout(()=>{
-												window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-											},2000)
+											this.$router.push('/down')
+
+											// alert('未安装')
+											
+											
+											//  setTimeout(()=>{
+											//  	alert('未安装')
+											// // 	window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
+											//  },2000)
 									}
 	                    }else{
 	                    // 滑动事件
@@ -360,32 +390,47 @@
 				
 			},
 			showImg(e){
+				console.log(e.target.className)
+				
 				if(e.target.className == 'viewM'){
 					if( window.navigator.userAgent.indexOf('iPhone' || 'iPad' || 'iPod') != -1){
-											if(this.$route.query.tyep == 'mer'){
-											 	window.location.href =`jglist://deeplinks/openWith?grand_id=12&id=${this.$route.params.id}`
+if(this.$route.query.tyep == 'mer'){
+											 	// window.location.href =`jglist://deeplinks/openWith?grand_id=12&id=${this.$route.params.id}`
+											 	window.location.href =`com.ziqi.easylife://12&${this.$route.params.id}`;
 											}else if(this.$route.query.tyep == 'cate'){
-											 	window.location.href =`jglist://deeplinks/openWith?grand_id=6&id=${this.$route.params.id}`
+												window.location.href =`com.ziqi.easylife://6&${this.$route.params.id}`;
+											 	// window.location.href =`jglist://deeplinks/openWith?grand_id=6&id=${this.$route.params.id}`
 											}else if(this.$route.query.tyep == 'jour'){
-											 	window.location.href =`jglist://deeplinks/openWith?grand_id=8&id=${this.$route.params.id}`
+												window.location.href =`com.ziqi.easylife://8&$${this.$route.params.id}`;
+											 	// window.location.href =`jglist://deeplinks/openWith?grand_id=8&id=${this.$route.params.id}`
 											}
-										setTimeout(()=>{
-											window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-										},1500)
+								this.$router.push('/down')
+
+										//  setTimeout(()=>{
+										//  	alert('未安装')
+										// //	window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
+										//  },2500)
 										
 									}else if(window.navigator.userAgent.indexOf('Android') != -1){
 											if(this.$route.query.tyep == 'mer'){
+
 											 	window.location.href =`jglist://deeplinks/openWith?grand_id=12&id=${this.$route.params.id}`
 											}else if(this.$route.query.tyep == 'cate'){
+
 											 	window.location.href =`jglist://deeplinks/openWith?grand_id=6&id=${this.$route.params.id}`
 											}else if(this.$route.query.tyep == 'jour'){
+												
 											 	window.location.href =`jglist://deeplinks/openWith?grand_id=8&id=${this.$route.params.id}`
 											}
-											setTimeout(()=>{
-												window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
-											},1500)
+								this.$router.push('/down')
+
+											// setTimeout(()=>{
+										 // 	alert('未安装')
+												
+											// 	// window.location.href = 'https://jglist.onelink.me/1789171185?pid=mobileWebPage'
+											// },1500)
 									}
-					return
+					
 				}
 
 				
@@ -531,7 +576,7 @@
 #openAA,#openBB{
 	float: right;
 	display: inline-block;
-	transform: translateX(52vw);
+	transform: translateX(53vw);
 	width: 5vw;
 	height: 3vw;
 	color: #fff;
@@ -694,7 +739,7 @@
 				padding: 0 4vw;
 				overflow: hidden;
 				>.zh_name{
-					width: 92vw;
+					width: 94vw;
 					font-size: 4.26vw;
 					margin-top: 4vw;
 					overflow: hidden;
@@ -843,11 +888,12 @@ overflow: hidden;
 					min-height: 30.6vw;
 					padding: 4vw 4vw;
 					box-sizing: border-box;
-					>p{
+					>p,dl{
 						font-size: 3.06vw;
 						color: #666666;
 
 					}
+
 					>.infomation{
 						height: 8.5vw;
 						overflow: hidden;
