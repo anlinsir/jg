@@ -43,9 +43,9 @@
 					<!-- 图片 -->
 					<div class="imgs" >
 						<p>
-							<img :src="item.images[0].video ?items.image : items.image + '200_200.jpg'" v-for='(items,index) in item.images' :key='index'>
+							<img v-if='!item.images[0].video' :src="item.images[0].video ?items.image : items.image + '200_200.jpg'" v-for='(items,index) in item.images' :key='index'>
 						</p>
-						<video v-if='item.images[0].video' v-for='(iii,ddd) in item.images' width="320" height="240" controls>
+						<video v-if='item.images[0].video' v-for='(iii,ddd) in item.images' width="320" height="240" controls :poster="item.images.image">
 								  <source :src="iii.video" type="video/mp4">
 									您的浏览器不支持Video标签。
 						</video>

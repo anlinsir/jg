@@ -4,7 +4,13 @@
 			<li @touchend='toDetali' @touchstart='toDetali' @touchmove='toDetali'  :data-id='item.id' v-for='(item,index) in data' :key='index'>
 				<dl :data-id='item.id'>
 					<dt>
-						<img :data-id='item.id' :src="item.image.indexOf('jpg') != -1 ? item.image : item.image + '200_200.jpg' ">
+						<img  v-if='!item.video' :data-id='item.id' :src="item.image.indexOf('jpg') != -1 ? item.image : item.image + '200_200.jpg' ">
+
+
+						<video data-type='video' @click='paly' style="z-index: -1;" v-if='item.video' width="77" height="77" :poster="item.image"  >
+								  <source :src="item.video" type="video/mp4">
+									您的浏览器不支持Video标签。
+						</video>
 						
 					</dt>
 					<dd :data-id='item.id'>
@@ -92,6 +98,11 @@
 			})
 		},
 		methods:{
+			paly(e){
+				e.target.play()
+				return
+
+			},
 			toDetali(e){
 				 switch (e.type) {
 	                case 'touchstart':
@@ -102,6 +113,10 @@
 	                    break;
 	                case 'touchend':
 	                    if(this.flag){
+	                    	if(e.target.dataset.type =='video'){
+	                    		return
+	                    	}
+	                    	
 	                        this.$emit('detali',e.target.dataset.id)
 	                    }else{
 	                    // 滑动事件
