@@ -6,12 +6,43 @@
 			<!-- 选择 参数 -->
 			<section class="choose">
 				<ul>
-					<li :class="active == index ? 'active' : '' " @touchstart='choose(index,$event,9)' data-iss='warp'  @touchend='choose(index,$event,9)' @touchmove='choose(index,$event,9)' v-for='(item,index) in nav ' :key="index">{{item.name}}<span  v-if='item.sel'></span>
+					<li 
+					:class="active == index ? 'active' : '' " 
+					@touchstart='choose(index,$event,9)' 
+					data-iss='warp'  
+					@touchend='choose(index,$event,9)' 
+					@touchmove='choose(index,$event,9)' 
+					v-for='(item,index) in nav ' 
+					:key="index">{{item.name}}
+
+						<span  v-if='item.sel'></span>
+
 						<ul  :style="{left: nav[3].sel && !nav[4] ? index == 0 ? 1 * -20 + '%' : index * -130 + '%' :index == 0 ? 1*-20 + '%' : index*-100 + '%'}"  v-if='item.sel' v-show='showPart == index' :key='index' id='chooseItem'>
-							<li   @touchstart.stop='chooseItem(indexs,$event,items.child)' @touchend.stop='chooseItem(indexs,$event,items.child)' :data-pricess='items.pricess'  :data-add='items.level'   @touchmove.stop='chooseItem(indexs,$event,items.child)' @mouseenter="chooseItem(indexs,$event)" :key='indexs'  :data-id='items.id' :data-role="item.role ? item.role: '' " v-for="(items,indexs) in useClassify  ? useClassify[0].child?  useClassify[0].child.length ?   useClassify[0].child: useClassify : useClassify : '' ">
-									<span :class="active == index ? 'active' : '' " v-if='items.child && items.child.length'>></span>{{items.title}}
+
+							<li   
+							@touchstart.stop='chooseItem(indexs,$event,items.child)' 
+							@touchend.stop='chooseItem(indexs,$event,items.child)' 
+							:data-pricess='items.pricess'  :data-add='items.level'  
+							 @touchmove.stop='chooseItem(indexs,$event,items.child)' 
+							 @mouseenter="chooseItem(indexs,$event)" :key='indexs'  
+							 :data-id='items.id' :data-role="item.role ? item.role: '' " 
+							 v-for="(items,indexs) in useClassify  ? useClassify[0].child?  useClassify[0].child.length ?   useClassify[0].child: useClassify : useClassify : '' ">
+								
+									<span 
+									:class="active == index ? 'active' : '' "
+									 v-if='items.child && items.child.length'
+									 >></span>{{items.title}}
+
 								<ul v-if='items.child && showPartItem == indexs'>
-									<li @touchstart.stop='hide(indexss,$event,props.id,props.title)' @touchmove.stop='hide(indexss,$event,props.id,props.title)' @touchend.stop='hide(indexss,$event,props.id,props.title)' v-for='(props,indexss) in items.child' :data-id='items.id'  :key='indexss' :data-pid='props.id'>{{props.title}}</li>
+
+									<li 
+									@touchstart.stop='hide(indexss,$event,props.id,props.title)'
+									@touchmove.stop='hide(indexss,$event,props.id,props.title)' 
+									@touchend.stop='hide(indexss,$event,props.id,props.title)' 
+									v-for='(props,indexss) in items.child' :data-id='items.id'  
+									:key='indexss' :data-pid='props.id'
+									>{{props.title}}</li>
+
 								</ul>
 							</li>
 						</ul>
@@ -423,6 +454,7 @@
 	                    	
 	                    	if(name == 'privilege'){
 	                    		localStorage.removeItem('dataPri')
+
 	                    		if(index == 1){
 	                    			
 	                    			// &sort=2
@@ -530,7 +562,15 @@
 										this.useClassify = [{title:'不限',id:0},{title:'商家',id:1},{title:'经纪人',id:2}]
 									}
 									if(index == 0){
-										this.useClassify =JSON.parse(localStorage.basedata).merchant
+
+										this.useClassify =JSON.parse(localStorage.basedata).merchant;
+										for(var i in JSON.parse(localStorage.basedata).delicacy){
+											this.useClassify.push(JSON.parse(localStorage.basedata).delicacy[i])
+										}
+										return
+										
+										console.log(this.useClassify)
+										
 
 									}
 									if(index == 4){
@@ -765,6 +805,13 @@
 	                    		if(name == 'privilege'){
 	                    	
 	                    			localStorage.removeItem('dataPri')
+	                    			if(this.showPart == 0){
+		                    			localStorage.parentPcate = (e.target.dataset.id)
+		                    			localStorage.parentPri = 0
+		                    			
+		                    			location.reload()
+		                    			return
+		                    		}
 	                    			if(this.showPart == 3){
 	                    				localStorage.PriChoose3 = e.target.innerText
 	                    				this.nav[this.showPart].name =  localStorage.PriChoose3
@@ -1031,9 +1078,6 @@
 						},
 						{
 							name:localStorage.PriChoose3 ? localStorage.PriChoose3.substring(0,2) + '...' : '筛选',
-							sel:true
-						},{
-							name:localStorage.PriChoose3 ? localStorage.PriChoose3.substring(0,2) + '...' : '美食',
 							sel:true
 						}
 					
