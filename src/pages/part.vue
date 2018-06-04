@@ -562,8 +562,23 @@
 										this.useClassify = [{title:'不限',id:0},{title:'商家',id:1},{title:'经纪人',id:2}]
 									}
 									if(index == 0){
-
-										this.useClassify =JSON.parse(localStorage.basedata).merchant;
+										this.useClassify = [
+														{
+															id:0,
+															title:'商家服务',
+															child:[]
+														},
+														{
+															id:1,
+															title:'美食',
+															child:[]
+														}
+												]
+										return	
+										this.useClassify =[JSON.parse(localStorage.basedata).merchant[0]];
+										this.useClassify.push(JSON.parse(localStorage.basedata).delicacy[0])
+										console.log(this.useClassify)
+										return
 										for(var i in JSON.parse(localStorage.basedata).delicacy){
 											this.useClassify.push(JSON.parse(localStorage.basedata).delicacy[i])
 										}
@@ -629,7 +644,7 @@
 	                    		this.nav[this.showPart].name = (e.target.innerText).substring(0,2) + '...'
 	                    		if(name == 'used'){//name == 'rent' ||  || name == 'car'
 	                    		
-	                    		if(name == 'used'){localStorage.removeItem('dataG1')}
+	                    				if(name == 'used'){localStorage.removeItem('dataG1')}
 	                    		// if(name == 'car'){localStorage.removeItem('dataG2')}
 	                    		// if(name == 'rent'){localStorage.removeItem('dataG4')}
 
@@ -808,7 +823,17 @@
 	                    			if(this.showPart == 0){
 		                    			localStorage.parentPcate = (e.target.dataset.id)
 		                    			localStorage.parentPri = 0
-		                    			
+		                    			if(e.target.innerText == '商家服务'){
+		                    				this.useClassify =JSON.parse(localStorage.basedata).merchant
+		                    					this.useClassify.push({title:'美食',child:[],id:1})
+		                    				return
+		                    			}
+		                    			if(e.target.innerText == '美食'){
+		                    				this.useClassify =JSON.parse(localStorage.basedata).delicacy 
+		                    					this.useClassify.unshift({title:'商家服务',child:[],id:0})
+		                    				return
+		                    			}
+		                    			localStorage.NavChoosePri0 = e.target.innerText
 		                    			location.reload()
 		                    			return
 		                    		}
